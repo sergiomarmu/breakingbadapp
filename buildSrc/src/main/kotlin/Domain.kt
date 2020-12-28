@@ -3,6 +3,10 @@ object Domain {
     const val kotlinVersion = "1.3.72"
     // endregion kotlin
 
+    // region coroutines
+    const val coroutinesVersion = "1.3.9"
+    // endregion coroutines
+
     // region test
     const val jUnitVersion = "4.13.1"
     const val androidxJunitVersion = "1.1.2"

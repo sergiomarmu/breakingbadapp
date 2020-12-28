@@ -37,9 +37,19 @@ android {
             )
         }
     }
+
+    // Hilt uses Java 8 features
+    // https://developer.android.com/training/dependency-injection/hilt-android
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":domain"))
+
     // region kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     // endregion kotlin

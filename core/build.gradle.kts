@@ -1,4 +1,7 @@
+import Core.androidxAppCompatVersion
 import Core.androidxJunitVersion
+import Core.androidxNavigationFragmentVersion
+import Core.coroutinesVersion
 import Core.hiltVersion
 import Core.jUnitVersion
 import Core.kotlinVersion
@@ -38,6 +41,15 @@ dependencies {
     // region kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     // endregion kotlin
+
+    // region androidx
+    implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$androidxNavigationFragmentVersion")
+    // endregion androidx
+
+    // region coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    // endregion coroutines
 
     // region hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")

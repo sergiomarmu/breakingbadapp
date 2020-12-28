@@ -15,7 +15,7 @@ class DomainModule {
     // region interactor
     @Singleton
     @Provides
-    fun retrieveInteractor(
+    fun provideInteractor(
         networkInteractor: NetworkInteractorImpl
     ): NetworkInteractor = networkInteractor
     // endregion interactor

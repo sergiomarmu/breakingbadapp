@@ -21,7 +21,7 @@ data class CharacterOutput(
     @SerializedName("nickname")
     val nickname: String,
     @SerializedName("portrayed")
-    val portrayed: String,
+    val portrayed: String
 ) {
     enum class Status {
         @SerializedName("Alive")

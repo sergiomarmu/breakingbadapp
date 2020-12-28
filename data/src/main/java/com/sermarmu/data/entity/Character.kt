@@ -15,7 +15,7 @@ data class Character(
     val status: Status,
     val appearance: List<Int>?,
     val nickname: String,
-    val portrayed: String,
+    val portrayed: String
 ) {
     enum class Status {
         ALIVE,

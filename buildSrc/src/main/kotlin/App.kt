@@ -9,11 +9,19 @@ object App {
     const val androidxConstraintLayoutVersion = "2.0.4"
     const val androidxNavigationFragmentVersion = "2.3.2"
     const val androidxNavigationUiVersion = "2.3.2"
+    const val hiltLifecycleViewModelVersion = "1.0.0-alpha02"
+    const val hiltCompilerVersion = "1.0.0-alpha01"
+    const val recyclerViewVersion = "1.2.0-beta01"
     // endregion androidx
 
     // region material design
     const val materialDesignVersion = "1.2.1"
     // endregion material design
+
+    // region glide
+    const val glideVersion = "4.11.0"
+    const val glideCompilerVersion = "4.11.0"
+    // endregion glide
 
     // region coroutines
     const val coroutinesVersion = "1.3.9"

@@ -41,7 +41,7 @@ inline fun <T> tryRequest(
                 cause = e
             )
             else -> DataException.Unexpected(
-                message = "Unexpected Error",
+                message = "Unexpected Error"
             )
         }
     } catch (e: IllegalStateException) {
@@ -50,6 +50,6 @@ inline fun <T> tryRequest(
         )
     } catch (e: Exception) {
         throw DataException.Unexpected(
-            message = "Unexpected Error",
+            message = "Unexpected Error"
         )
     }

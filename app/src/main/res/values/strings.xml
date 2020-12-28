@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BreakingBad</string>
+    <string name="character_header_adapter_title">Characters</string>
 </resources>

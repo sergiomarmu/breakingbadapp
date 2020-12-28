@@ -21,6 +21,23 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 class DataModule {
+
+    // region source
+    @Singleton
+    @Provides
+    fun provideNetworkSource(
+        networkSource: NetworkSourceImpl
+    ): NetworkSource = networkSource
+    // endregion source
+
+    // region repository
+    @Singleton
+    @Provides
+    fun provideNetworkRepository(
+        networkRepository: NetworkRepositoryImpl
+    ): NetworkRepository = networkRepository
+    // endregion repository
+
     // region retrofit
     @Singleton
     @Provides
@@ -42,7 +59,7 @@ class DataModule {
     @Named("breakingbad_retrofit")
     fun provideRetrofit(
         okHttpClient: OkHttpClient
-    ) = Retrofit.Builder()
+    ): Retrofit = Retrofit.Builder()
         .addConverterFactory(
             GsonConverterFactory.create()
         )
@@ -57,20 +74,4 @@ class DataModule {
     ): NetworkApi = retrofit.create(NetworkApi::class.java)
 
     // endregion retrofit
-
-    // region source
-    @Singleton
-    @Provides
-    fun networkSource(
-        networkSource: NetworkSourceImpl
-    ): NetworkSource = networkSource
-    // endregion source
-
-    // region repository
-    @Singleton
-    @Provides
-    fun networkRepository(
-        networkRepository: NetworkRepositoryImpl
-    ): NetworkRepository = networkRepository
-    // endregion repository
 }

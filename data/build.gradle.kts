@@ -1,7 +1,12 @@
 import Data.androidxJunitVersion
+import Data.coroutinesVersion
+import Data.gsonVersion
 import Data.hiltVersion
 import Data.jUnitVersion
 import Data.kotlinVersion
+import Data.loggingInterceptorVersion
+import Data.retrofit2ConverterGsonVersion
+import Data.retrofit2Version
 
 plugins {
     id("com.android.library")
@@ -40,6 +45,20 @@ dependencies {
     // region kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     // endregion kotlin
+
+    // region gson
+    implementation("com.google.code.gson:gson:$gsonVersion")
+    // endregion gson
+
+    // region retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
+    implementation("com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit2ConverterGsonVersion")
+    // endregion retrofit
+
+    // region coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    // endregion coroutines
 
     // region hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")

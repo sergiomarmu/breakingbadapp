@@ -3,9 +3,13 @@ import App.androidxConstraintLayoutVersion
 import App.androidxCoreVersion
 import App.androidxEspressoCoreVersion
 import App.androidxJunitVersion
+import App.androidxNavigationFragmentVersion
+import App.androidxNavigationUiVersion
+import App.coroutinesVersion
 import App.hiltVersion
 import App.jUnitVersion
 import App.kotlinVersion
+import App.materialDesignVersion
 
 plugins {
     id("com.android.application")
@@ -44,6 +48,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    // https://developer.android.com/topic/libraries/view-binding
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -58,7 +67,17 @@ dependencies {
     implementation("androidx.core:core-ktx:$androidxCoreVersion")
     implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
     implementation("androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$androidxNavigationFragmentVersion")
+    implementation("androidx.navigation:navigation-ui:$androidxNavigationUiVersion")
     // endregion androidx
+
+    // region material design
+    implementation("com.google.android.material:material:$materialDesignVersion")
+    // endregion material design
+
+    // region coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    // endregion coroutines
 
     // region hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")

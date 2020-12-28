@@ -3,6 +3,7 @@ import App.androidxConstraintLayoutVersion
 import App.androidxCoreVersion
 import App.androidxEspressoCoreVersion
 import App.androidxJunitVersion
+import App.hiltVersion
 import App.jUnitVersion
 import App.kotlinVersion
 
@@ -10,6 +11,8 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -46,6 +49,11 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
     implementation("androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion")
     // endregion androidx
+
+    // region hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    // endregion hilt
 
     // region test
     testImplementation("junit:junit:$jUnitVersion")

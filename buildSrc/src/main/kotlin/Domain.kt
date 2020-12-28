@@ -7,4 +7,8 @@ object Domain {
     const val jUnitVersion = "4.13.1"
     const val androidxJunitVersion = "1.1.2"
     // endregion test
+
+    // region hilt
+    const val hiltVersion = "2.28-alpha"
+    // endregion hilt
 }

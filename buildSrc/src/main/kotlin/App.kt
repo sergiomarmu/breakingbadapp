@@ -14,4 +14,8 @@ object App {
     const val androidxJunitVersion = "1.1.2"
     const val androidxEspressoCoreVersion = "3.3.0"
     // endregion test
+
+    // region hilt
+    const val hiltVersion = "2.28-alpha"
+    // endregion hilt
 }

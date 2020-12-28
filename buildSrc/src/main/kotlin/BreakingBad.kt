@@ -6,4 +6,8 @@ object BreakingBad {
     // region gradle
     const val gradleVersion = "4.0.2"
     // endregion gradle
+
+    // region hilt
+    const val hiltVersion = "2.28-alpha"
+    // endregion hilt
 }

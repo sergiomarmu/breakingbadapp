@@ -4,12 +4,11 @@ import com.sermarmu.data.source.network.io.CharacterOutput
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toSet
-import java.util.*
 
 data class Character(
     val charId: Int,
     val name: String,
-    val birthday: Date,
+    val birthday: String,
     val occupation: List<String>,
     val img: String,
     val status: Status,

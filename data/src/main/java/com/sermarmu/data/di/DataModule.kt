@@ -20,28 +20,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class DataModule {
-
-    // region source
-    @Singleton
-    @Provides
-    fun provideNetworkSource(
-        networkSource: NetworkSourceImpl
-    ): NetworkSource = networkSource
-    // endregion source
-
-    // region repository
-    @Singleton
-    @Provides
-    fun provideNetworkRepository(
-        networkRepository: NetworkRepositoryImpl
-    ): NetworkRepository = networkRepository
-    // endregion repository
+object DataModule {
 
     // region retrofit
     @Singleton
     @Provides
-    fun provideOkkHttpClient() = OkHttpClient.Builder()
+    @Named("breakingbad_okhttpclient")
+    fun provideOkkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor()
                 .setLevel(
@@ -58,6 +43,7 @@ class DataModule {
     @Provides
     @Named("breakingbad_retrofit")
     fun provideRetrofit(
+        @Named("breakingbad_okhttpclient")
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .addConverterFactory(
@@ -72,6 +58,21 @@ class DataModule {
     fun provideNetworkApi(
         @Named("breakingbad_retrofit") retrofit: Retrofit
     ): NetworkApi = retrofit.create(NetworkApi::class.java)
-
     // endregion retrofit
+
+    // region source
+    @Singleton
+    @Provides
+    fun provideNetworkSource(
+        networkSource: NetworkSourceImpl
+    ): NetworkSource = networkSource
+    // endregion source
+
+    // region repository
+    @Singleton
+    @Provides
+    fun provideNetworkRepository(
+        networkRepository: NetworkRepositoryImpl
+    ): NetworkRepository = networkRepository
+    // endregion repository
 }

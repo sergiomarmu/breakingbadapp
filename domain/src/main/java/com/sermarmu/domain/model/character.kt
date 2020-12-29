@@ -12,7 +12,7 @@ import java.util.*
 data class CharacterModel(
     val charId: Int,
     val name: String,
-    val birthday: Date,
+    val birthday: String,
     val occupation: List<String>,
     val img: String,
     val status: Status,

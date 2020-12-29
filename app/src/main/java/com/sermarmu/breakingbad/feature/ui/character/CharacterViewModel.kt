@@ -1,6 +1,5 @@
 package com.sermarmu.breakingbad.feature.ui.character
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.mapLatest
 class CharacterViewModel @ViewModelInject constructor(
     private val networkInteractor: NetworkInteractor
 ) : ViewModel() {
-    internal sealed class CharacterState {
+    sealed class CharacterState {
         data class Success(
             val characters: Set<CharacterModel>
         ) : CharacterState()
@@ -34,7 +33,7 @@ class CharacterViewModel @ViewModelInject constructor(
     }
 
     private var characterStateJob: Job? = null
-    internal val characterStateLiveData = object : LiveData<CharacterState>() {
+    val characterStateLiveData = object : LiveData<CharacterState>() {
         override fun onActive() {
             super.onActive()
             val oldJob = characterStateJob

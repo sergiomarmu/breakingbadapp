@@ -1,7 +1,6 @@
 package com.sermarmu.data.source.network.io
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class CharacterOutput(
     @SerializedName("char_id")
@@ -9,7 +8,7 @@ data class CharacterOutput(
     @SerializedName("name")
     val name: String,
     @SerializedName("birthday")
-    val birthday: Date,
+    val birthday: String,
     @SerializedName("occupation")
     val occupation: List<String>,
     @SerializedName("img")
@@ -28,7 +27,7 @@ data class CharacterOutput(
         ALIVE,
         @SerializedName("Deceased")
         DECEASED,
-        @SerializedName("Presume dead")
+        @SerializedName("Presumed dead")
         PRESUME_DEAD,
         @SerializedName("Unknown")
         UNKNOWN,

@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class DomainModule {
+object DomainModule {
 
     // region interactor
     @Singleton

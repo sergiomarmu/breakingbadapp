@@ -4,7 +4,7 @@ object Domain {
     // endregion kotlin
 
     // region coroutines
-    const val coroutinesVersion = "1.3.9"
+    const val coroutinesCoreVersion = "1.3.9"
     // endregion coroutines
 
     // region test

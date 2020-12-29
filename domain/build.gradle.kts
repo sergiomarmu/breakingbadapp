@@ -1,5 +1,5 @@
 import Domain.androidxJunitVersion
-import Domain.coroutinesVersion
+import Domain.coroutinesCoreVersion
 import Domain.hiltVersion
 import Domain.jUnitVersion
 import Domain.kotlinVersion
@@ -39,12 +39,13 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
 
+
     // region kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     // endregion kotlin
 
     // region coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion")
     // endregion coroutines
 
     // region hilt

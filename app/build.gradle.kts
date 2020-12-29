@@ -15,6 +15,8 @@ import App.jUnitVersion
 import App.kotlinVersion
 import App.materialDesignVersion
 import App.recyclerViewVersion
+import App.retrofit2ConverterGsonVersion
+import App.retrofit2Version
 
 plugins {
     id("com.android.application")
@@ -67,6 +69,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
+    implementation(project(":data"))
 
     // region kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
@@ -100,6 +103,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     // endregion hilt
+
+    // region retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit2ConverterGsonVersion")
+    // endregion retrofit
 
     // region test
     testImplementation("junit:junit:$jUnitVersion")

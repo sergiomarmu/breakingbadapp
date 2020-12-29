@@ -1,8 +1,6 @@
 package com.sermarmu.core.base
 
 import android.content.Context
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,7 +14,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     override lateinit var coroutineContext: CoroutineContext
 
     val navController: NavController
-    get() = findNavController()
+        get() = findNavController()
 
     override fun onAttach(context: Context) {
         coroutineContext = SupervisorJob() + Dispatchers.Main

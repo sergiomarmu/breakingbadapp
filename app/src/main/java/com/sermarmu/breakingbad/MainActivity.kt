@@ -1,11 +1,22 @@
 package com.sermarmu.breakingbad
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sermarmu.breakingbad.databinding.ActivityMainBinding
+import com.sermarmu.core.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        ActivityMainBinding
+            .inflate(layoutInflater)
+            .also {
+                binding = it
+                setContentView(it.root)
+            }
     }
 }

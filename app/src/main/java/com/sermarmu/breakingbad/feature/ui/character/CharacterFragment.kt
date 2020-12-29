@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sermarmu.breakingbad.databinding.CharacterFragmentBinding
 import com.sermarmu.breakingbad.feature.ui.character.adapter.Adapter
 import com.sermarmu.breakingbad.feature.ui.character.adapter.HeaderAdapter
@@ -62,8 +63,10 @@ class CharacterFragment : BaseFragment() {
                                 .submitList(state.characters.toList())
                         is CharacterViewModel.CharacterState.Failure ->
                             when (state) {
-                                is CharacterViewModel.CharacterState.Failure.NoInternet -> {}
-                                is CharacterViewModel.CharacterState.Failure.Unexpected -> {}
+                                is CharacterViewModel.CharacterState.Failure.NoInternet ->
+                                    Snackbar.make(requireView(), state.message ?: String(), Snackbar.LENGTH_LONG).show()
+                                is CharacterViewModel.CharacterState.Failure.Unexpected ->
+                                    Snackbar.make(requireView(), state.message ?: String(), Snackbar.LENGTH_LONG).show()
                             }
                     }
 

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BreakingBad</string>
+    <string name="character_header_adapter_title">Characters</string>
+    <string name="character_detail_occupation">Occupation: %s</string>
+    <string name="character_detail_portrayed">Portrayed: %s</string>
 </resources>

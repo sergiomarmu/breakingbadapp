@@ -78,7 +78,7 @@ class DataTest {
             .thenReturn(listOf(fakeCharacterOutput))
 
         networkInteractor
-            .retrieveCharacters(
+            .retrieveCharactersFlow(
                 userRefreshActionMutableStateFlow = userRefreshAction
             )
             .first()

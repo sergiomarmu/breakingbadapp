@@ -21,6 +21,10 @@ object Data {
     const val hiltVersion = "2.28-alpha"
     // endregion hilt
 
+    // region room
+    const val roomVersion = "2.2.6"
+    // endregion room
+
     // region test
     const val jUnitVersion = "4.13.1"
     const val androidxJunitVersion = "1.1.2"

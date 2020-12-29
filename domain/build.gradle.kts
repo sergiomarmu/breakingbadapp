@@ -50,6 +50,7 @@ dependencies {
     // endregion coroutines
 
     // region hilt
+    // see https://dagger.dev/hilt/
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     // endregion hilt

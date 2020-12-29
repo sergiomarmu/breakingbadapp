@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sermarmu.domain.interactor.LocalInteractor
 import com.sermarmu.domain.interactor.NetworkInteractor
 import com.sermarmu.domain.model.CharacterModel
 import dagger.hilt.android.scopes.FragmentScoped
@@ -15,7 +16,8 @@ import kotlinx.coroutines.flow.mapLatest
 @ExperimentalCoroutinesApi
 @FragmentScoped
 class CharacterViewModel @ViewModelInject constructor(
-    private val networkInteractor: NetworkInteractor
+    private val networkInteractor: NetworkInteractor,
+    private val localInteractor: LocalInteractor
 ) : ViewModel() {
 
     // region state
@@ -38,6 +40,7 @@ class CharacterViewModel @ViewModelInject constructor(
 
     // region mutableStateFlow
     private val userRefreshActionMutableStateFlow = MutableStateFlow(0)
+    private val userAddFavouriteCharacterMutableStateFlow = MutableStateFlow(0)
     // endregion mutableStateFlow
 
     // region livedata
@@ -49,8 +52,9 @@ class CharacterViewModel @ViewModelInject constructor(
             characterStateJob = viewModelScope.launch {
                 oldJob?.cancel()
 
-                networkInteractor.retrieveCharacters(
-                    userRefreshActionMutableStateFlow = userRefreshActionMutableStateFlow
+                networkInteractor.retrieveCharactersFlow(
+                    userRefreshActionMutableStateFlow = userRefreshActionMutableStateFlow,
+                    userAddFavouriteCharacterMutableStateFlow = userAddFavouriteCharacterMutableStateFlow
                 ).mapLatest {
                     when (it) {
                         is NetworkInteractor.CharacterState.Success ->
@@ -70,6 +74,7 @@ class CharacterViewModel @ViewModelInject constructor(
     }
     // endregion livedata
 
+    // region userAction
     private var userRefreshJob: Job? = null
     internal fun onUserRefreshAction() {
         val oldJob = userRefreshJob
@@ -79,4 +84,21 @@ class CharacterViewModel @ViewModelInject constructor(
             userRefreshActionMutableStateFlow.value = userRefreshActionValue.inc()
         }
     }
+
+    private var userAddFavouriteCharacterJob: Job? = null
+    internal fun onUserAddFavouriteCharacterAction(
+        characterModel: CharacterModel
+    ) {
+        val oldJob = userAddFavouriteCharacterJob
+        userAddFavouriteCharacterJob = viewModelScope.launch {
+            oldJob?.cancel()
+            localInteractor.addFavouriteCharacter(
+                characterModel
+            )
+            val userAddActionValue = userAddFavouriteCharacterMutableStateFlow.value
+            userAddFavouriteCharacterMutableStateFlow.value = userAddActionValue.inc()
+        }
+    }
+    // endregion userAction
+
 }

@@ -1,7 +1,6 @@
 package com.sermarmu.domain.interactor
 
 import com.sermarmu.data.entity.Character
-import com.sermarmu.data.handler.DataException
 import com.sermarmu.data.repository.NetworkRepository
 import com.sermarmu.domain.model.CharacterModel
 import com.sermarmu.domain.model.toCharacterModel
@@ -14,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.doThrow
 import org.mockito.junit.MockitoJUnitRunner
 
 private val fakeCharacter = Character(
@@ -74,7 +72,7 @@ class NetworkInteractorTest {
             .thenReturn(setOf(fakeCharacter))
 
         networkInteractor
-            .retrieveCharacters(
+            .retrieveCharactersFlow(
                 userRefreshActionMutableStateFlow = userRefreshAction
             )
             .first()

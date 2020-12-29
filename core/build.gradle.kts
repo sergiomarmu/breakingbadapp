@@ -43,6 +43,7 @@ dependencies {
     // endregion kotlin
 
     // region androidx
+    // see https://developer.android.com/jetpack
     implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:$androidxNavigationFragmentVersion")
     // endregion androidx
@@ -52,6 +53,7 @@ dependencies {
     // endregion coroutines
 
     // region hilt
+    // see https://dagger.dev/hilt/
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     // endregion hilt

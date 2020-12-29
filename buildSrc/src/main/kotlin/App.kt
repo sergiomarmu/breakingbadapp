@@ -12,6 +12,7 @@ object App {
     const val hiltLifecycleViewModelVersion = "1.0.0-alpha01"
     const val hiltCompilerVersion = "1.0.0-alpha01"
     const val recyclerViewVersion = "1.2.0-beta01"
+    const val swipeRefreshLayoutVersion = "1.1.0"
     // endregion androidx
 
     // region material design

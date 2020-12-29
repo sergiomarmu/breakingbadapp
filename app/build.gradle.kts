@@ -17,6 +17,7 @@ import App.materialDesignVersion
 import App.recyclerViewVersion
 import App.retrofit2ConverterGsonVersion
 import App.retrofit2Version
+import App.swipeRefreshLayoutVersion
 
 plugins {
     id("com.android.application")
@@ -85,6 +86,7 @@ dependencies {
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifecycleViewModelVersion")
     kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
     implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion")
     // endregion androidx
 
     // region material design

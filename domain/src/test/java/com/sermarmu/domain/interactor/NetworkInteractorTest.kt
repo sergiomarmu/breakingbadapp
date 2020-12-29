@@ -6,6 +6,7 @@ import com.sermarmu.data.repository.NetworkRepository
 import com.sermarmu.domain.model.CharacterModel
 import com.sermarmu.domain.model.toCharacterModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -49,6 +50,8 @@ class NetworkInteractorTest {
 
     private lateinit var networkInteractor: NetworkInteractor
 
+    private val userRefreshAction = MutableStateFlow(0)
+
     @Before
     fun setUp() {
         networkInteractor = NetworkInteractorImpl(
@@ -71,7 +74,9 @@ class NetworkInteractorTest {
             .thenReturn(setOf(fakeCharacter))
 
         networkInteractor
-            .retrieveCharacters()
+            .retrieveCharacters(
+                userRefreshActionMutableStateFlow = userRefreshAction
+            )
             .first()
             .let {
                 assert(it ==  NetworkInteractor.CharacterState.Success(setOf(fakeCharacter).toCharacterModel()))

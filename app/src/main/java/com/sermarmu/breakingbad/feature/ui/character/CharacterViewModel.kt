@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.mapLatest
 class CharacterViewModel @ViewModelInject constructor(
     private val networkInteractor: NetworkInteractor
 ) : ViewModel() {
-    sealed class CharacterState {
+    internal sealed class CharacterState {
         data class Success(
             val characters: Set<CharacterModel>
         ) : CharacterState()
@@ -33,7 +33,7 @@ class CharacterViewModel @ViewModelInject constructor(
     }
 
     private var characterStateJob: Job? = null
-    val characterStateLiveData = object : LiveData<CharacterState>() {
+    internal val characterStateLiveData = object : LiveData<CharacterState>() {
         override fun onActive() {
             super.onActive()
             val oldJob = characterStateJob

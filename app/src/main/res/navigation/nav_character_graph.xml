@@ -7,6 +7,27 @@
 
     <fragment android:id="@+id/dest_character"
         android:name="com.sermarmu.breakingbad.feature.ui.character.CharacterFragment"
-        tools:layout="@layout/character_fragment" />
+        tools:layout="@layout/character_fragment" >
+
+        <action
+            android:id="@+id/act_nav_dest_character_detail"
+            app:destination="@+id/dest_character_detail"
+            app:enterAnim="@anim/enter_slide_up_anim"
+            app:exitAnim="@anim/exit_slide_down_anim"
+            app:popEnterAnim="@anim/enter_slide_down_anim"
+            app:popExitAnim="@anim/exit_slide_up_anim" />
+
+    </fragment>
+
+
+    <dialog
+        android:id="@+id/dest_character_detail"
+        android:name="com.sermarmu.breakingbad.feature.ui.character.CharacterDetailFragment"
+        tools:layout="@layout/character_detail_fragment" >
+
+        <argument
+            android:name="characterModel"
+            app:argType="com.sermarmu.domain.model.CharacterModel" />
+    </dialog>
 
 </navigation>

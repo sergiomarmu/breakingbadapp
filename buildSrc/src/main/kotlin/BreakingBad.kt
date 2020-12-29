@@ -10,4 +10,8 @@ object BreakingBad {
     // region hilt
     const val hiltVersion = "2.28-alpha"
     // endregion hilt
+
+    // region navigation safe args
+    const val navigationSafeArgsVersion = "2.3.2"
+    // endregion navigation safe args
 }

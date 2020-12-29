@@ -10,7 +10,6 @@ import com.sermarmu.breakingbad.R
 import com.sermarmu.breakingbad.extensions.loadImageFromUrl
 import com.sermarmu.domain.model.CharacterModel
 import kotlinx.android.synthetic.main.character_model.view.*
-import java.util.*
 
 class HeaderAdapter: RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
     class ViewHolder(
@@ -37,20 +36,26 @@ class HeaderAdapter: RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
     override fun getItemCount(): Int = 1
 }
 
-class Adapter: ListAdapter<CharacterModel, Adapter.ViewHolder>(
+class Adapter(
+    val listener: (CharacterModel) -> Unit
+): ListAdapter<CharacterModel, Adapter.ViewHolder>(
     AdapterDiffCallback
 ) {
     class ViewHolder(
         v: View
     ): RecyclerView.ViewHolder(v) {
         fun bind(
-            model: CharacterModel
+            model: CharacterModel,
+            listener: (CharacterModel) -> Unit
         ) = with(itemView) {
             mtv_name_charactermodel.text = model.name
             mtv_status_charactermodel.text = model.status.toString()
             aciv_image_charactermodel.loadImageFromUrl(
                 model.img
             )
+            setOnClickListener {
+                listener(model)
+            }
         }
     }
 
@@ -71,7 +76,7 @@ class Adapter: ListAdapter<CharacterModel, Adapter.ViewHolder>(
         position: Int
     ) {
         getItem(position)!!.also {
-            holder.bind(it)
+            holder.bind(it, listener)
         }
     }
 
@@ -89,5 +94,4 @@ class Adapter: ListAdapter<CharacterModel, Adapter.ViewHolder>(
                 oldItem.img == newItem.img &&
                 oldItem.status == newItem.status
     }
-
 }

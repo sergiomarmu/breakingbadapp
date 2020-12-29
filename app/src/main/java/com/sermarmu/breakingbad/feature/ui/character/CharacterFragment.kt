@@ -44,7 +44,11 @@ class CharacterFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ConcatAdapter(
                 HeaderAdapter(),
-                Adapter()
+                Adapter {
+                    navController.navigate(
+                        CharacterFragmentDirections.actNavDestCharacterDetail(it)
+                    )
+                }
             )
         }
 

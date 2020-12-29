@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android design guidelines -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="default_horizontal_margin">8dp</dimen>
+    <dimen name="default_vertical_margin">8dp</dimen>
+    <dimen name="default_padding">8dp</dimen>
+    <dimen name="default_marginTop">8dp</dimen>
+</resources>

@@ -13,3 +13,13 @@ fun ImageView.loadImageFromUrl(
         .transition(transition)
         .into(this)
 }
+
+fun ImageView.loadImageFromDrawable(
+    drawable: Int,
+    transition: DrawableTransitionOptions = DrawableTransitionOptions.withCrossFade()
+) {
+    Glide.with(context)
+        .load(drawable)
+        .transition(transition)
+        .into(this)
+}

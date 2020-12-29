@@ -2,7 +2,9 @@ import Domain.androidxJunitVersion
 import Domain.coroutinesCoreVersion
 import Domain.hiltVersion
 import Domain.jUnitVersion
+import Domain.kotlinCoroutinesTestVersion
 import Domain.kotlinVersion
+import Domain.mockitoCoreVersion
 
 plugins {
     id("com.android.library")
@@ -56,5 +58,7 @@ dependencies {
     // region test
     testImplementation("junit:junit:$jUnitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidxJunitVersion")
+    implementation("org.mockito:mockito-core:$mockitoCoreVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion")
     // endregion test
 }

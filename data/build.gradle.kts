@@ -3,8 +3,11 @@ import Data.coroutinesVersion
 import Data.gsonVersion
 import Data.hiltVersion
 import Data.jUnitVersion
+import Data.kotlinCoroutinesTestVersion
 import Data.kotlinVersion
 import Data.loggingInterceptorVersion
+import Data.mockitoCoreVersion
+import Data.mockitoWebServerVersion
 import Data.retrofit2ConverterGsonVersion
 import Data.retrofit2Version
 
@@ -68,5 +71,8 @@ dependencies {
     // region test
     testImplementation("junit:junit:$jUnitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidxJunitVersion")
+    implementation("org.mockito:mockito-core:$mockitoCoreVersion")
+    testImplementation("com.squareup.okhttp3:mockwebserver:$mockitoWebServerVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion")
     // endregion test
 }

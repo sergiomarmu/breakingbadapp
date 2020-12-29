@@ -24,5 +24,8 @@ object Data {
     // region test
     const val jUnitVersion = "4.13.1"
     const val androidxJunitVersion = "1.1.2"
+    const val mockitoCoreVersion = "3.6.28"
+    const val mockitoWebServerVersion = "4.9.0"
+    const val kotlinCoroutinesTestVersion = "1.3.3"
     // endregion test
 }

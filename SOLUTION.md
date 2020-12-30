@@ -29,15 +29,19 @@ We have different components in this project in different modules all of them wi
 For understand better how the application is structured and his logic, there are different diagrams, one of classes and other of sequence for each module:
 
 **Class Diagram**
+
 ![alt text](diagram/ArchitectureDiagramClass/APPARCHICTECTURE.png)
 
 **Sequence App Diagram**
+
 ![alt text](diagram/SequenceDiagramApp/APPSEQUENCE.png)
 
 **Sequence Domain Diagram**
+
 ![alt text](diagram/SequenceDiagramData/APPSEQUENCE.png)
 
 **Sequence Data Diagram**
+
 ![alt text](diagram/SequenceDiagramDomain/APPSEQUENCE.png)
 
 Finally, there are a different types of tests inside Domain Module(Unit/Integration) and Data Module. The most complex test is the unit tests for check the correct work of room and retrofit

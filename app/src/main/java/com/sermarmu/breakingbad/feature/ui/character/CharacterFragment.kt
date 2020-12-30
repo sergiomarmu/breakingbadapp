@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.sermarmu.breakingbad.R
 import com.sermarmu.breakingbad.databinding.CharacterFragmentBinding
 import com.sermarmu.breakingbad.feature.ui.character.adapter.Adapter
 import com.sermarmu.breakingbad.feature.ui.character.adapter.HeaderAdapter
@@ -41,6 +42,12 @@ class CharacterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCharacters.apply {
+            binding.srlCharacters.apply {
+                isRefreshing = true
+                setOnRefreshListener {
+                    viewModel.onUserRefreshAction()
+                }
+            }
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ConcatAdapter(
@@ -58,16 +65,28 @@ class CharacterFragment : BaseFragment() {
                 viewLifecycleOwner,
                 Observer { state ->
                     when (state) {
-                        is CharacterViewModel.CharacterState.Success ->
+                        is CharacterViewModel.CharacterState.Success -> {
+                            binding.srlCharacters.isRefreshing = false
                             ((binding.rvCharacters.adapter as ConcatAdapter).adapters[1] as Adapter)
                                 .submitList(state.characters.toList())
-                        is CharacterViewModel.CharacterState.Failure ->
+                        }
+                        is CharacterViewModel.CharacterState.Failure -> {
+                            binding.srlCharacters.isRefreshing = false
                             when (state) {
                                 is CharacterViewModel.CharacterState.Failure.NoInternet ->
-                                    Snackbar.make(requireView(), state.message ?: String(), Snackbar.LENGTH_LONG).show()
+                                    Snackbar.make(
+                                        requireView(),
+                                        state.message ?: getString(R.string.error_no_internet_connection),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
                                 is CharacterViewModel.CharacterState.Failure.Unexpected ->
-                                    Snackbar.make(requireView(), state.message ?: String(), Snackbar.LENGTH_LONG).show()
+                                    Snackbar.make(
+                                        requireView(),
+                                        state.message ?: getString(R.string.error_unknown),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
                             }
+                        }
                     }
 
                 }

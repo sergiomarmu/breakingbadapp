@@ -1,6 +1,6 @@
 object Core {
     // region kotlin
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     // endregion kotlin
 
     // region androidx
@@ -9,7 +9,7 @@ object Core {
     // endregion androidx
 
     // region coroutines
-    const val coroutinesVersion = "1.3.9"
+    const val coroutinesVersion = "1.4.0"
     // endregion coroutines
 
     // region test

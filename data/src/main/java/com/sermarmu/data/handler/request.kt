@@ -2,13 +2,18 @@
 
 package com.sermarmu.data.handler
 
-import kotlinx.coroutines.CancellationException
-import okio.IOException
 import retrofit2.Response
+import java.io.IOException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.CancellationException
 
+@Throws(
+    DataException.Network::class,
+    DataException.Unexpected::class,
+    DataException.Unparseable::class
+)
 inline fun <T> tryRequest(
     request: () -> Response<T>
 ): T =
@@ -29,16 +34,17 @@ inline fun <T> tryRequest(
         }
 
     } catch (e: CancellationException) {
-        throw DataException.Unexpected(
-            message = "Unexpected Error"
-        )
+        throw e
     } catch (e: IOException) {
         throw when (e) {
-            is UnknownHostException,
-            is SocketException,
+            is UnknownHostException -> DataException.Network(
+                message = "Unknown Host Error"
+            )
+            is SocketException -> DataException.Network(
+                message = "Socket Error"
+            )
             is SocketTimeoutException -> DataException.Network(
-                message = "Network Error",
-                cause = e
+                message = "Socket Timeout Error"
             )
             else -> DataException.Unexpected(
                 message = "Unexpected Error"
@@ -48,7 +54,7 @@ inline fun <T> tryRequest(
         throw DataException.Unparseable(
             message = "Body Unparseable Error"
         )
-    } catch (e: Exception) {
+    }  catch (e: Exception) {
         throw DataException.Unexpected(
             message = "Unexpected Error"
         )

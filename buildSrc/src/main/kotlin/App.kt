@@ -1,6 +1,6 @@
 object App {
     // region kotlin
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     // endregion kotlin
 
     // region androidx
@@ -12,6 +12,7 @@ object App {
     const val hiltLifecycleViewModelVersion = "1.0.0-alpha01"
     const val hiltCompilerVersion = "1.0.0-alpha01"
     const val recyclerViewVersion = "1.2.0-beta01"
+    const val swipeRefreshLayoutVersion = "1.1.0"
     // endregion androidx
 
     // region material design
@@ -24,7 +25,7 @@ object App {
     // endregion glide
 
     // region coroutines
-    const val coroutinesVersion = "1.3.9"
+    const val coroutinesVersion = "1.4.0"
     // endregion coroutines
 
     // region hilt

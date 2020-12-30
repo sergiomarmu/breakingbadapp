@@ -1,0 +1,17 @@
+@startuml APP SEQUENCE
+
+header AppModule
+
+CharacterDetailFragment <-- CharacterFragment: Navigate
+CharacterViewModel <-- CharacterFragment: Observe Livedata
+CharacterFragment <-- CharacterViewModel: Change Livedata value
+
+CharacterViewModel <-- CharacterFragment: onUserRefreshAction
+CharacterViewModel <-- CharacterDetailFragment: onUserAddFavouriteCharacterAction
+
+NetworkInteractor <-- CharacterViewModel: retrieveCharactersFlow
+LocalInteractor <-- CharacterViewModel: addFavouriteCharacter
+
+CharacterViewModel <-- NetworkInteractor: Flow<CharacterState>
+
+@enduml

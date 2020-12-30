@@ -21,7 +21,7 @@ android {
         minSdkVersion(27)
         targetSdkVersion(29)
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +43,7 @@ dependencies {
     // endregion kotlin
 
     // region androidx
+    // see https://developer.android.com/jetpack
     implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:$androidxNavigationFragmentVersion")
     // endregion androidx
@@ -52,6 +53,7 @@ dependencies {
     // endregion coroutines
 
     // region hilt
+    // see https://dagger.dev/hilt/
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     // endregion hilt

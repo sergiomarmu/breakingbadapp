@@ -1,10 +1,10 @@
 object Domain {
     // region kotlin
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     // endregion kotlin
 
     // region coroutines
-    const val coroutinesCoreVersion = "1.3.9"
+    const val coroutinesCoreVersion = "1.4.0"
     // endregion coroutines
 
     // region hilt

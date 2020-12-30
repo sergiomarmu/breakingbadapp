@@ -9,9 +9,7 @@ import com.sermarmu.domain.interactor.NetworkInteractor
 import com.sermarmu.domain.model.CharacterModel
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
 @FragmentScoped
@@ -39,8 +37,8 @@ class CharacterViewModel @ViewModelInject constructor(
     // endregion state
 
     // region mutableStateFlow
-    private val userRefreshActionMutableStateFlow = MutableStateFlow(0)
-    private val userAddFavouriteCharacterMutableStateFlow = MutableStateFlow(0)
+    // see https://developer.android.com/kotlin/flow/stateflow-and-sharedflow
+    private val userActionMutableStateFlow = MutableStateFlow(0)
     // endregion mutableStateFlow
 
     // region livedata
@@ -53,8 +51,7 @@ class CharacterViewModel @ViewModelInject constructor(
                 oldJob?.cancel()
 
                 networkInteractor.retrieveCharactersFlow(
-                    userRefreshActionMutableStateFlow = userRefreshActionMutableStateFlow,
-                    userAddFavouriteCharacterMutableStateFlow = userAddFavouriteCharacterMutableStateFlow
+                    userActionMutableStateFlow = userActionMutableStateFlow
                 ).mapLatest {
                     when (it) {
                         is NetworkInteractor.CharacterState.Success ->
@@ -80,8 +77,8 @@ class CharacterViewModel @ViewModelInject constructor(
         val oldJob = userRefreshJob
         userRefreshJob = viewModelScope.launch {
             oldJob?.cancel()
-            val userRefreshActionValue = userRefreshActionMutableStateFlow.value
-            userRefreshActionMutableStateFlow.value = userRefreshActionValue.inc()
+            val userRefreshActionValue = userActionMutableStateFlow.value.inc()
+            userActionMutableStateFlow.value = userRefreshActionValue
         }
     }
 
@@ -95,10 +92,10 @@ class CharacterViewModel @ViewModelInject constructor(
             localInteractor.addFavouriteCharacter(
                 characterModel
             )
-            val userAddActionValue = userAddFavouriteCharacterMutableStateFlow.value
-            userAddFavouriteCharacterMutableStateFlow.value = userAddActionValue.inc()
+            val userAddActionValue = userActionMutableStateFlow.value.inc()
+            userActionMutableStateFlow.value = userAddActionValue
         }
     }
-    // endregion userAction
+// endregion userAction
 
 }

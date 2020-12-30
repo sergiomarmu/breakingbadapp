@@ -14,7 +14,7 @@ object Data {
     // end region retrofit
 
     // region coroutines
-    const val coroutinesVersion = "1.3.9"
+    const val coroutinesVersion = "1.4.0"
     // endregion coroutines
 
     // region hilt
@@ -27,6 +27,7 @@ object Data {
 
     // region test
     const val jUnitVersion = "4.13.1"
+    const val androidxTestRunnerVersion = "1.3.0"
     const val androidxJunitVersion = "1.1.2"
     const val mockitoCoreVersion = "3.6.28"
     const val mockitoWebServerVersion = "4.9.0"

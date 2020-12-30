@@ -1,4 +1,5 @@
 import Data.androidxJunitVersion
+import Data.androidxTestRunnerVersion
 import Data.coroutinesVersion
 import Data.gsonVersion
 import Data.hiltVersion
@@ -41,6 +42,7 @@ android {
             )
         }
     }
+
 }
 
 dependencies {
@@ -76,13 +78,17 @@ dependencies {
     api("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    // optional - Kotlin Extensions and Coroutines support for Room
+    // Kotlin Extensions and Coroutines support for Room
     api("androidx.room:room-ktx:$roomVersion")
+    // Test helpers
+    testImplementation("androidx.room:room-testing:$roomVersion")
     // endregion room
 
     // region test
     testImplementation("junit:junit:$jUnitVersion")
+    androidTestImplementation("junit:junit:$jUnitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidxJunitVersion")
+    androidTestImplementation("androidx.test:runner:$androidxTestRunnerVersion")
     // see https://site.mockito.org/
     implementation("org.mockito:mockito-core:$mockitoCoreVersion")
     // see https://github.com/square/okhttp/tree/master/mockwebserver

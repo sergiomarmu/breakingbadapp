@@ -30,17 +30,21 @@ For understand better how the application is structured and his logic, there are
 
 **Class Diagram**
 
+
 ![alt text](diagram/ArchitectureDiagramClass/APPARCHICTECTURE.png)
 
 **Sequence App Diagram**
+
 
 ![alt text](diagram/SequenceDiagramApp/APPSEQUENCE.png)
 
 **Sequence Domain Diagram**
 
+
 ![alt text](diagram/SequenceDiagramData/APPSEQUENCE.png)
 
 **Sequence Data Diagram**
+
 
 ![alt text](diagram/SequenceDiagramDomain/APPSEQUENCE.png)
 

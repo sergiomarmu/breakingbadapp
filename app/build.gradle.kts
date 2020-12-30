@@ -17,6 +17,7 @@ import App.materialDesignVersion
 import App.recyclerViewVersion
 import App.retrofit2ConverterGsonVersion
 import App.retrofit2Version
+import App.swipeRefreshLayoutVersion
 
 plugins {
     id("com.android.application")
@@ -35,7 +36,7 @@ android {
         minSdkVersion(27)
         targetSdkVersion(29)
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,6 +78,7 @@ dependencies {
     // endregion kotlin
 
     // region androidx
+    // see https://developer.android.com/jetpack
     implementation("androidx.core:core-ktx:$androidxCoreVersion")
     implementation("androidx.appcompat:appcompat:$androidxAppCompatVersion")
     implementation("androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion")
@@ -85,13 +87,16 @@ dependencies {
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifecycleViewModelVersion")
     kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
     implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion")
     // endregion androidx
 
     // region material design
+    // see https://material.io/design
     implementation("com.google.android.material:material:$materialDesignVersion")
     // endregion material design
 
     // region glide
+    // see https://github.com/bumptech/glide
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     kapt("com.github.bumptech.glide:compiler:$glideCompilerVersion")
     // endregion glide
@@ -101,11 +106,13 @@ dependencies {
     // endregion coroutines
 
     // region hilt
+    // see https://dagger.dev/hilt/
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     // endregion hilt
 
     // region retrofit
+    // see https://square.github.io/retrofit/
     implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit2ConverterGsonVersion")
     // endregion retrofit

@@ -5,11 +5,15 @@ import com.sermarmu.data.repository.NetworkRepository
 import com.sermarmu.domain.interactor.NetworkInteractor.CharacterState
 import com.sermarmu.domain.model.CharacterModel
 import com.sermarmu.domain.model.toCharacterModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 interface NetworkInteractor {
-    suspend fun retrieveCharacters(): Flow<CharacterState>
+    suspend fun retrieveCharactersFlow(
+        userActionMutableStateFlow: MutableStateFlow<Int>
+    ): Flow<CharacterState>
 
 
     sealed class CharacterState {
@@ -29,23 +33,81 @@ interface NetworkInteractor {
     }
 }
 
+@ExperimentalCoroutinesApi
 class NetworkInteractorImpl @Inject constructor(
-    private val networkRepository: NetworkRepository
+    private val networkRepository: NetworkRepository,
+    private val localInteractor: LocalInteractor
 ) : NetworkInteractor {
-    override suspend fun retrieveCharacters(): Flow<CharacterState> =
-        flow {
-            emit(networkRepository.retrieveCharacters().toCharacterModel())
-        }.map {
-            CharacterState.Success(it)
-        }.distinctUntilChanged()
-            .catch<CharacterState> { error ->
-                when (error) {
-                    is DataException.Network -> CharacterState.Failure.NoInternet(
-                        error.message
+    override suspend fun retrieveCharactersFlow(
+        userActionMutableStateFlow: MutableStateFlow<Int>
+    ): Flow<CharacterState> =
+        userActionMutableStateFlow
+            .flatMapLatest {
+                flow {
+                    emit(
+                        networkRepository.retrieveCharacters().toCharacterModel()
                     )
-                    is DataException.Unparseable,
-                    is DataException.Unexpected ->
-                        CharacterState.Failure.Unexpected(error.message)
+                }.flatMapLatest { charactersModel ->
+                    localInteractor
+                        .retrieveFavouriteCharactersFlow()
+                        .flatMapLatest { listFavourites ->
+                            for (characterModel in charactersModel)
+                                for (listFavourite in listFavourites)
+                                    if (characterModel.charId == listFavourite.charId)
+                                        characterModel.isFavourite = listFavourite.isFavourite
+                            flowOf(CharacterState.Success(charactersModel))
+                        }
+                }.catch<CharacterState> { error ->
+                    emit(
+                        when (error) {
+                            is DataException.Unparseable,
+                            is DataException.Unexpected ->
+                                CharacterState.Failure.Unexpected(error.message)
+                            is DataException.Network -> CharacterState.Failure.NoInternet(
+                                error.message
+                            )
+                            else -> CharacterState.Failure.Unexpected(error.message)
+                        }
+                    )
                 }
             }
+
+
+    /**
+     *
+     *  combine(
+    flow {
+    emit(
+    networkRepository.retrieveCharacters().toCharacterModel()
+    )
+    },
+    userRefreshActionMutableStateFlow,
+    ) { charactersModel, userRefresh, userAdd ->
+    return@combine userRefresh to userAdd to charactersModel
+    }.flatMapLatest { result ->
+    // We ignore userAction value because we only want to know when user do an action for refresh recyclerview
+    val (userAction, charactersModel) = result
+    localInteractor
+    .retrieveFavouriteCharactersFlow()
+    .flatMapLatest { listFavourites ->
+    for (characterModel in charactersModel)
+    for (listFavourite in listFavourites)
+    if (characterModel.charId == listFavourite.charId)
+    characterModel.isFavourite = listFavourite.isFavourite
+    flowOf(CharacterState.Success(charactersModel))
+    }
+    }.catch<CharacterState> { error ->
+    emit(
+    when (error) {
+    is DataException.Unparseable,
+    is DataException.Unexpected ->
+    CharacterState.Failure.Unexpected(error.message)
+    is DataException.Network -> CharacterState.Failure.NoInternet(
+    error.message
+    )
+    else -> CharacterState.Failure.Unexpected(error.message)
+    }
+    )
+    }
+     */
 }

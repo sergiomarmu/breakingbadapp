@@ -1,7 +1,7 @@
 package com.sermarmu.data.handler
 
 import okhttp3.Response
-
+import java.lang.Exception
 
 sealed class DataException(
     message: String? = null,

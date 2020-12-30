@@ -18,7 +18,8 @@ data class CharacterModel(
     val status: Status,
     val appearance: List<Int>?,
     val nickname: String,
-    val portrayed: String
+    val portrayed: String,
+    var isFavourite: Boolean = false
 ) : Parcelable {
     enum class Status {
         ALIVE,

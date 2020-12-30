@@ -4,18 +4,21 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sermarmu.domain.interactor.LocalInteractor
 import com.sermarmu.domain.interactor.NetworkInteractor
 import com.sermarmu.domain.model.CharacterModel
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
 @FragmentScoped
 class CharacterViewModel @ViewModelInject constructor(
-    private val networkInteractor: NetworkInteractor
+    private val networkInteractor: NetworkInteractor,
+    private val localInteractor: LocalInteractor
 ) : ViewModel() {
+
+    // region state
     internal sealed class CharacterState {
         data class Success(
             val characters: Set<CharacterModel>
@@ -31,7 +34,14 @@ class CharacterViewModel @ViewModelInject constructor(
             ) : Failure()
         }
     }
+    // endregion state
 
+    // region mutableStateFlow
+    // see https://developer.android.com/kotlin/flow/stateflow-and-sharedflow
+    private val userActionMutableStateFlow = MutableStateFlow(0)
+    // endregion mutableStateFlow
+
+    // region livedata
     private var characterStateJob: Job? = null
     internal val characterStateLiveData = object : LiveData<CharacterState>() {
         override fun onActive() {
@@ -40,22 +50,52 @@ class CharacterViewModel @ViewModelInject constructor(
             characterStateJob = viewModelScope.launch {
                 oldJob?.cancel()
 
-                networkInteractor.retrieveCharacters()
-                    .mapLatest {
-                        when (it) {
-                            is NetworkInteractor.CharacterState.Success ->
-                                CharacterState.Success(it.characters)
-                            is NetworkInteractor.CharacterState.Failure.NoInternet ->
-                                CharacterState.Failure.NoInternet(it.message)
-                            is NetworkInteractor.CharacterState.Failure.Unexpected ->
-                                CharacterState.Failure.Unexpected(it.message)
-                        }
-                    }.collect {
-                        withContext(Dispatchers.Main) {
-                            value = it
-                        }
+                networkInteractor.retrieveCharactersFlow(
+                    userActionMutableStateFlow = userActionMutableStateFlow
+                ).mapLatest {
+                    when (it) {
+                        is NetworkInteractor.CharacterState.Success ->
+                            CharacterState.Success(it.characters)
+                        is NetworkInteractor.CharacterState.Failure.NoInternet ->
+                            CharacterState.Failure.NoInternet(it.message)
+                        is NetworkInteractor.CharacterState.Failure.Unexpected ->
+                            CharacterState.Failure.Unexpected(it.message)
                     }
+                }.collect {
+                    withContext(Dispatchers.Main) {
+                        value = it
+                    }
+                }
             }
         }
     }
+    // endregion livedata
+
+    // region userAction
+    private var userRefreshJob: Job? = null
+    internal fun onUserRefreshAction() {
+        val oldJob = userRefreshJob
+        userRefreshJob = viewModelScope.launch {
+            oldJob?.cancel()
+            val userRefreshActionValue = userActionMutableStateFlow.value.inc()
+            userActionMutableStateFlow.value = userRefreshActionValue
+        }
+    }
+
+    private var userAddFavouriteCharacterJob: Job? = null
+    internal fun onUserAddFavouriteCharacterAction(
+        characterModel: CharacterModel
+    ) {
+        val oldJob = userAddFavouriteCharacterJob
+        userAddFavouriteCharacterJob = viewModelScope.launch {
+            oldJob?.cancel()
+            localInteractor.addFavouriteCharacter(
+                characterModel
+            )
+            val userAddActionValue = userActionMutableStateFlow.value.inc()
+            userActionMutableStateFlow.value = userAddActionValue
+        }
+    }
+// endregion userAction
+
 }

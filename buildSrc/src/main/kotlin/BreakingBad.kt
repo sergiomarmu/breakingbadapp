@@ -1,6 +1,6 @@
 object BreakingBad {
     // region kotlin
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     // endregion kotlin
 
     // region gradle

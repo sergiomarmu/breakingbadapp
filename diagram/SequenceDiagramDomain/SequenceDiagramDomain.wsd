@@ -1,0 +1,16 @@
+@startuml APP SEQUENCE
+
+header DomainModule
+
+NetworkRepository <-- NetworkInteractor: retrieveCharacters
+NetworkRepository --> NetworkInteractor: Set<Character>
+
+LocalInteractor <-- NetworkInteractor: retrieveFavouriteCharactersFlow
+LocalInteractor --> NetworkInteractor: Flow<List<FavouriteCharacterOutput>>
+
+LocalRepository <-- LocalInteractor: retrieveFavouriteCharacters
+LocalInteractor <-- LocalRepository: List<FavouriteCharacterOutput>
+LocalRepository <-- LocalInteractor: insertFavouriteCharacters
+LocalRepository <-- LocalInteractor: updateFavoriteCharacter
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml APP SEQUENCE
+
+header DataModule
+
+group Network
+    NetworkSource <-- NetworkRepository: retrieveCharacters
+    NetworkApi <-- NetworkSource: retrieveCharacters
+    NetworkApi --> NetworkSource: Response<List<CharacterOutput>>
+    NetworkSource --> NetworkRepository: List<CharacterOutput>
+end
+
+group Local
+    LocalSource <-- LocalRepository: retrieveFavouriteCharacters
+    LocalApi <-- LocalSource: retrieveFavoriteCharacters
+    LocalApi --> LocalSource: List<FavouriteCharacterOutput>
+    LocalSource --> LocalRepository: List<FavouriteCharacterOutput>
+
+    LocalSource <-- LocalRepository: insertFavouriteCharacters
+    LocalApi <-- LocalSource: insertFavouriteCharacters
+    LocalSource <-- LocalRepository: updateFavoriteCharacter
+    LocalApi <-- LocalSource: updateFavoriteCharacter
+end
+
+@enduml

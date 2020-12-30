@@ -1,0 +1,60 @@
+@startuml APP ARCHICTECUTRE
+
+package "Breaking Bad App" {
+    package "Module app" {
+        class CharacterDetailFragment
+        class CharacterFragment
+        class CharacterViewModel
+    }
+
+    package "Module domain" {
+        interface NetworkInteractor
+        class NetworkInteractorImpl
+        interface LocalInteractor
+        class LocalInteractorImpl
+    }
+
+    package "Module data" {
+        package "Repository" {
+            interface NetworkRepository
+            class NetworkRepositoryImpl
+            interface LocalRepository
+            class LocalRepositoryImpl
+        }
+
+        package "Source" {
+            interface NetworkSource
+            class NetworkSourceImpl
+            interface LocalSource
+            class LocalSourceImpl
+
+            interface NetworkApi
+            interface LocalApi
+        }
+    }
+}
+
+CharacterDetailFragment <-- CharacterFragment
+CharacterViewModel <-- CharacterFragment
+NetworkInteractor <-- CharacterViewModel
+LocalInteractor <-- CharacterViewModel
+
+LocalInteractor <|-- NetworkInteractorImpl
+NetworkInteractor <|-- NetworkInteractorImpl
+LocalInteractor <|-- LocalInteractorImpl
+NetworkRepository <-- NetworkInteractorImpl
+LocalRepository <-- LocalInteractorImpl
+
+NetworkRepository <|-- NetworkRepositoryImpl
+LocalRepository <|-- LocalRepositoryImpl
+NetworkSource <-- NetworkRepositoryImpl
+LocalSource <-- LocalRepositoryImpl
+
+NetworkSource <|-- NetworkSourceImpl
+LocalSource <|-- LocalSourceImpl
+NetworkApi <-- NetworkSourceImpl
+LocalApi <-- LocalSourceImpl
+
+@enduml
+
+

@@ -71,43 +71,4 @@ class NetworkInteractorImpl @Inject constructor(
                     )
                 }
             }
-
-
-    /**
-     *
-     *  combine(
-    flow {
-    emit(
-    networkRepository.retrieveCharacters().toCharacterModel()
-    )
-    },
-    userRefreshActionMutableStateFlow,
-    ) { charactersModel, userRefresh, userAdd ->
-    return@combine userRefresh to userAdd to charactersModel
-    }.flatMapLatest { result ->
-    // We ignore userAction value because we only want to know when user do an action for refresh recyclerview
-    val (userAction, charactersModel) = result
-    localInteractor
-    .retrieveFavouriteCharactersFlow()
-    .flatMapLatest { listFavourites ->
-    for (characterModel in charactersModel)
-    for (listFavourite in listFavourites)
-    if (characterModel.charId == listFavourite.charId)
-    characterModel.isFavourite = listFavourite.isFavourite
-    flowOf(CharacterState.Success(charactersModel))
-    }
-    }.catch<CharacterState> { error ->
-    emit(
-    when (error) {
-    is DataException.Unparseable,
-    is DataException.Unexpected ->
-    CharacterState.Failure.Unexpected(error.message)
-    is DataException.Network -> CharacterState.Failure.NoInternet(
-    error.message
-    )
-    else -> CharacterState.Failure.Unexpected(error.message)
-    }
-    )
-    }
-     */
 }

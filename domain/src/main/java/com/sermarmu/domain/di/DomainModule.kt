@@ -1,9 +1,6 @@
 package com.sermarmu.domain.di
 
-import com.sermarmu.domain.interactor.LocalInteractor
-import com.sermarmu.domain.interactor.LocalInteractorImpl
-import com.sermarmu.domain.interactor.NetworkInteractor
-import com.sermarmu.domain.interactor.NetworkInteractorImpl
+import com.sermarmu.domain.interactor.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +25,11 @@ object DomainModule {
     fun provideLocalInteractor(
         localInteractor: LocalInteractorImpl
     ): LocalInteractor = localInteractor
+
+    @Singleton
+    @Provides
+    fun provideCharacterInteractor(
+        characterInteractor: CharacterInteractorImpl
+    ): CharacterInteractor = characterInteractor
     // endregion interactor
 }

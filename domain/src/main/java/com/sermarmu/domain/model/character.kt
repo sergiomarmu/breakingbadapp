@@ -6,7 +6,6 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toSet
-import java.util.*
 
 @Parcelize
 data class CharacterModel(
@@ -29,21 +28,24 @@ data class CharacterModel(
     }
 }
 
-suspend fun Iterable<Character>.toCharacterModel() = asFlow().map {
+suspend fun Iterable<Character>.toCharactersModel() = asFlow().map {
+    it.toCharacterModel()
+}.toSet()
+
+fun Character.toCharacterModel() =
     CharacterModel(
-        charId = it.charId,
-        name = it.name,
-        birthday = it.birthday,
-        occupation = it.occupation,
-        img = it.img,
-        status = when (it.status) {
+        charId = this.charId,
+        name = this.name,
+        birthday = this.birthday,
+        occupation = this.occupation,
+        img = this.img,
+        status = when (this.status) {
             Character.Status.ALIVE -> CharacterModel.Status.ALIVE
             Character.Status.DECEASED -> CharacterModel.Status.DECEASED
             Character.Status.PRESUME_DEAD -> CharacterModel.Status.PRESUME_DEAD
             Character.Status.UNKNOWN -> CharacterModel.Status.UNKNOWN
         },
-        appearance = it.appearance,
-        nickname = it.nickname,
-        portrayed = it.portrayed
+        appearance = this.appearance,
+        nickname = this.nickname,
+        portrayed = this.portrayed
     )
-}.toSet()

@@ -1,9 +1,10 @@
 package com.sermarmu.domain.interactor
 
+import com.sermarmu.data.entity.FavouriteCharacter
 import com.sermarmu.data.repository.LocalRepository
-import com.sermarmu.data.source.local.io.output.FavouriteCharacterOutput
+import com.sermarmu.domain.model.toFavouriteCharacterModel
+import com.sermarmu.domain.model.toFavouriteCharactersModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -13,13 +14,13 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
-private val fakeFavouriteCharactersOutput = FavouriteCharacterOutput(
+private val fakeFavouriteCharacters = FavouriteCharacter(
     charId = 1,
     name = "fakeName",
     isFavourite = true
 )
 
-private val fakeFavouriteCharacterOutput = FavouriteCharacterOutput(
+private val fakeFavouriteCharacter = FavouriteCharacter(
     charId = 2,
     name = "fakeName",
     isFavourite = true
@@ -44,13 +45,13 @@ class LocalInteractorTest {
     @Test
     fun retrieveFavouriteCharacterOutputTest() = runBlockingTest {
         `when`(localRepository.retrieveFavouriteCharacters())
-            .thenReturn(listOf(fakeFavouriteCharactersOutput))
+            .thenReturn(setOf(fakeFavouriteCharacters))
 
         localInteractor
             .retrieveFavouriteCharactersFlow()
             .first()
             .let {
-                assert(it == listOf(fakeFavouriteCharactersOutput))
+                assert(it == listOf(fakeFavouriteCharacters).toFavouriteCharactersModel())
             }
     }
 
@@ -61,7 +62,7 @@ class LocalInteractorTest {
             localRepository.retrieveFavouriteCharacter(
                 fakeCharId
             )
-        ).thenReturn(fakeFavouriteCharacterOutput)
+        ).thenReturn(fakeFavouriteCharacter)
 
         localInteractor
             .retrieveFavouriteCharacterFlow(
@@ -69,7 +70,7 @@ class LocalInteractorTest {
             ).first()
             .let {
                 assert(it != null)
-                assert(it == fakeFavouriteCharacterOutput)
+                assert(it == fakeFavouriteCharacter.toFavouriteCharacterModel())
             }
     }
 }

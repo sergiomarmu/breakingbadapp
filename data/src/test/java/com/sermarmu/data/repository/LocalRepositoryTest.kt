@@ -1,5 +1,7 @@
 package com.sermarmu.data.repository
 
+import com.sermarmu.data.entity.toFavouriteCharacter
+import com.sermarmu.data.entity.toFavouriteCharacters
 import com.sermarmu.data.source.local.LocalSource
 import com.sermarmu.data.source.local.io.output.FavouriteCharacterOutput
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,7 +43,7 @@ class LocalRepositoryTest {
         localRepository
             .retrieveFavouriteCharacters()
             .let {
-                assert(it == listOf(fakeFavouriteCharacterOutput))
+                assert(it == setOf(fakeFavouriteCharacterOutput).toFavouriteCharacters())
             }
 
     }
@@ -59,7 +61,7 @@ class LocalRepositoryTest {
             .retrieveFavouriteCharacter(
                 charId = charId
             ).let {
-                assert(it == fakeFavouriteCharacterOutput)
+                assert(it == fakeFavouriteCharacterOutput.toFavouriteCharacter())
             }
     }
 }

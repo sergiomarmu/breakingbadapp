@@ -1,15 +1,10 @@
-package com.sermarmu.domain.integration
+package com.sermarmu.domain.interactor
 
 import com.sermarmu.data.entity.Character
-import com.sermarmu.data.repository.LocalRepository
-import com.sermarmu.data.repository.NetworkRepository
-import com.sermarmu.data.repository.NetworkRepositoryImpl
 import com.sermarmu.data.source.local.io.output.FavouriteCharacterOutput
-import com.sermarmu.data.source.network.NetworkSource
-import com.sermarmu.data.source.network.io.CharacterOutput
-import com.sermarmu.domain.interactor.*
 import com.sermarmu.domain.model.CharacterModel
-import com.sermarmu.domain.model.toCharacterModel
+import com.sermarmu.domain.model.FavouriteCharacterModel
+import com.sermarmu.domain.model.toCharactersModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -19,25 +14,37 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
-private val fakeCharacterOutput = CharacterOutput(
+private val fakeCharacter = Character(
     charId = 1,
     name = "fakeName",
     birthday = "fakeBirthDay",
     occupation = listOf("fakeOccupation"),
     img = "fakeImg",
-    status = CharacterOutput.Status.ALIVE,
+    status = Character.Status.ALIVE,
     appearance = listOf(3),
     nickname = "fakeNickname",
     portrayed = "fakePortrayed"
 )
 
-private val fakeFavouriteCharacterOutput = FavouriteCharacterOutput(
+private val fakeFavouriteCharacterModel = FavouriteCharacterModel(
     charId = 1,
     name = "fakeName",
     isFavourite = true
+)
+
+private val fakeCharacterModel = CharacterModel(
+    charId = 1,
+    name = "fakeName",
+    birthday = "fakeBirthDay",
+    occupation = listOf("fakeOccupation"),
+    img = "fakeImg",
+    status = CharacterModel.Status.ALIVE,
+    appearance = listOf(3),
+    nickname = "fakeNickname",
+    portrayed = "fakePortrayed"
 )
 
 private val fakeCharacterModelSuccess = CharacterModel(
@@ -55,57 +62,49 @@ private val fakeCharacterModelSuccess = CharacterModel(
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class DataTest {
-
-    // region network
-    @Mock
-    private lateinit var networkSource: NetworkSource
+class CharacterInteractorTest {
     @Mock
     private lateinit var localInteractor: LocalInteractor
 
-    private lateinit var networkRepository: NetworkRepository
+    @Mock
     private lateinit var networkInteractor: NetworkInteractor
 
+    private lateinit var characterInteractor: CharacterInteractor
+
     private val userAction = MutableStateFlow(0)
-    // endregion network
 
     @Before
     fun setUp() {
-        // region network
-        networkRepository = NetworkRepositoryImpl(
-            networkSource
-        )
-
-        networkInteractor = NetworkInteractorImpl(
-            networkRepository,
+        characterInteractor = CharacterInteractorImpl(
+            networkInteractor,
             localInteractor
         )
-        // endregion network
     }
 
     @Test
     fun retrieveCharactersTest() = runBlockingTest {
-        `when`(networkSource.retrieveCharacters())
-            .thenReturn(listOf(fakeCharacterOutput))
-
+        `when`(networkInteractor.retrieveCharacters())
+            .thenReturn(flowOf(setOf(fakeCharacterModel)))
         `when`(localInteractor.retrieveFavouriteCharactersFlow())
-            .thenReturn(flowOf(listOf(fakeFavouriteCharacterOutput)))
+            .thenReturn(flowOf(setOf(fakeFavouriteCharacterModel)))
 
-        networkInteractor
+        characterInteractor
             .retrieveCharactersFlow(
                 userActionMutableStateFlow = userAction
             )
             .first()
             .let { state ->
-                assert(state is NetworkInteractor.CharacterState.Success)
+                assert(state is CharacterInteractor.CharacterState.Success)
                 assert(
-                    (state as NetworkInteractor.CharacterState.Success)
+                    (state as CharacterInteractor.CharacterState.Success)
                         .characters.size
                             == setOf(fakeCharacterModelSuccess).size
                 )
-                state.characters.toMutableSet().first {
-                    it.charId == 1
-                } == setOf(fakeCharacterModelSuccess).toMutableSet().first()
+                assert(
+                    state.characters.toMutableSet().first {
+                        it.charId == 1
+                    } == setOf(fakeCharacterModelSuccess).toMutableSet().first()
+                )
             }
     }
 }

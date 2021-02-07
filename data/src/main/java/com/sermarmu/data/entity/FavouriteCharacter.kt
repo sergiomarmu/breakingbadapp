@@ -1,23 +1,22 @@
-package com.sermarmu.domain.model
+package com.sermarmu.data.entity
 
-import com.sermarmu.data.entity.FavouriteCharacter
 import com.sermarmu.data.source.local.io.output.FavouriteCharacterOutput
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toSet
 
-data class FavouriteCharacterModel(
+data class FavouriteCharacter(
     val charId: Int,
     val name: String,
     var isFavourite: Boolean = false
 )
 
-suspend fun Iterable<FavouriteCharacter>.toFavouriteCharactersModel() = asFlow().map {
-    it.toFavouriteCharacterModel()
+suspend fun Iterable<FavouriteCharacterOutput>.toFavouriteCharacters() = asFlow().map {
+    it.toFavouriteCharacter()
 }.toSet()
 
-fun FavouriteCharacter.toFavouriteCharacterModel() =
-    FavouriteCharacterModel(
+fun FavouriteCharacterOutput.toFavouriteCharacter() =
+    FavouriteCharacter(
         charId = this.charId,
         name = this.name,
         isFavourite = this.isFavourite

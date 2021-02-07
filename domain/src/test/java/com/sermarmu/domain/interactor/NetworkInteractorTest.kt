@@ -4,7 +4,8 @@ import com.sermarmu.data.entity.Character
 import com.sermarmu.data.repository.NetworkRepository
 import com.sermarmu.data.source.local.io.output.FavouriteCharacterOutput
 import com.sermarmu.domain.model.CharacterModel
-import com.sermarmu.domain.model.toCharacterModel
+import com.sermarmu.domain.model.FavouriteCharacterModel
+import com.sermarmu.domain.model.toCharactersModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -29,7 +30,7 @@ private val fakeCharacter = Character(
     portrayed = "fakePortrayed"
 )
 
-private val fakeFavouriteCharacterOutput = FavouriteCharacterOutput(
+private val fakeFavouriteCharacterModel = FavouriteCharacterModel(
     charId = 1,
     name = "fakeName",
     isFavourite = true
@@ -47,19 +48,6 @@ private val fakeCharacterModel = CharacterModel(
     portrayed = "fakePortrayed"
 )
 
-private val fakeCharacterModelSuccess = CharacterModel(
-    charId = 1,
-    name = "fakeName",
-    birthday = "fakeBirthDay",
-    occupation = listOf("fakeOccupation"),
-    img = "fakeImg",
-    status = CharacterModel.Status.ALIVE,
-    appearance = listOf(3),
-    nickname = "fakeNickname",
-    portrayed = "fakePortrayed",
-    isFavourite = true
-)
-
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class NetworkInteractorTest {
@@ -67,18 +55,12 @@ class NetworkInteractorTest {
     @Mock
     private lateinit var networkRepository: NetworkRepository
 
-    @Mock
-    private lateinit var localInteractor: LocalInteractor
-
     private lateinit var networkInteractor: NetworkInteractor
-
-    private val userAction = MutableStateFlow(0)
 
     @Before
     fun setUp() {
         networkInteractor = NetworkInteractorImpl(
-            networkRepository,
-            localInteractor
+            networkRepository
         )
     }
 
@@ -86,7 +68,7 @@ class NetworkInteractorTest {
     fun retrieveCharactersToCharactersModelTest() = runBlockingTest {
 
         val fakeCharacterList = setOf(fakeCharacterModel)
-        val fakeCharacterModelConvertedList = setOf(fakeCharacter).toCharacterModel()
+        val fakeCharacterModelConvertedList = setOf(fakeCharacter).toCharactersModel()
 
         assert(fakeCharacterList == fakeCharacterModelConvertedList)
     }
@@ -95,26 +77,12 @@ class NetworkInteractorTest {
     fun retrieveCharactersTest() = runBlockingTest {
         `when`(networkRepository.retrieveCharacters())
             .thenReturn(setOf(fakeCharacter))
-        `when`(localInteractor.retrieveFavouriteCharactersFlow())
-            .thenReturn(flowOf(listOf(fakeFavouriteCharacterOutput)))
 
         networkInteractor
-            .retrieveCharactersFlow(
-                userActionMutableStateFlow = userAction
-            )
+            .retrieveCharacters()
             .first()
-            .let { state ->
-                assert(state is NetworkInteractor.CharacterState.Success)
-                assert(
-                    (state as NetworkInteractor.CharacterState.Success)
-                        .characters.size
-                            == setOf(fakeCharacterModelSuccess).size
-                )
-                assert(
-                    state.characters.toMutableSet().first {
-                        it.charId == 1
-                    } == setOf(fakeCharacterModelSuccess).toMutableSet().first()
-                )
+            .let {
+                assert(it == setOf(fakeCharacter).toCharactersModel())
             }
     }
 }

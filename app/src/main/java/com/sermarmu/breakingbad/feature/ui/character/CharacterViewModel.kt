@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sermarmu.domain.interactor.CharacterInteractor
 import com.sermarmu.domain.interactor.LocalInteractor
 import com.sermarmu.domain.interactor.NetworkInteractor
 import com.sermarmu.domain.model.CharacterModel
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.*
 @ExperimentalCoroutinesApi
 @FragmentScoped
 class CharacterViewModel @ViewModelInject constructor(
-    private val networkInteractor: NetworkInteractor,
+    private val characterInteractor: CharacterInteractor,
     private val localInteractor: LocalInteractor
 ) : ViewModel() {
 
@@ -50,15 +51,15 @@ class CharacterViewModel @ViewModelInject constructor(
             characterStateJob = viewModelScope.launch {
                 oldJob?.cancel()
 
-                networkInteractor.retrieveCharactersFlow(
+                characterInteractor.retrieveCharactersFlow(
                     userActionMutableStateFlow = userActionMutableStateFlow
                 ).mapLatest {
                     when (it) {
-                        is NetworkInteractor.CharacterState.Success ->
+                        is CharacterInteractor.CharacterState.Success ->
                             CharacterState.Success(it.characters)
-                        is NetworkInteractor.CharacterState.Failure.NoInternet ->
+                        is CharacterInteractor.CharacterState.Failure.NoInternet ->
                             CharacterState.Failure.NoInternet(it.message)
-                        is NetworkInteractor.CharacterState.Failure.Unexpected ->
+                        is CharacterInteractor.CharacterState.Failure.Unexpected ->
                             CharacterState.Failure.Unexpected(it.message)
                     }
                 }.collect {
@@ -89,13 +90,12 @@ class CharacterViewModel @ViewModelInject constructor(
         val oldJob = userAddFavouriteCharacterJob
         userAddFavouriteCharacterJob = viewModelScope.launch {
             oldJob?.cancel()
-            localInteractor.addFavouriteCharacter(
+            characterInteractor.addFavouriteCharacter(
                 characterModel
             )
             val userAddActionValue = userActionMutableStateFlow.value.inc()
             userActionMutableStateFlow.value = userAddActionValue
         }
     }
-// endregion userAction
-
+    // endregion userAction
 }
